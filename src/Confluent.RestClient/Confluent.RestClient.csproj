@@ -52,6 +52,17 @@
     <Compile Include="HttpRequestMessageExtensions.cs" />
     <Compile Include="IConfluentClient.cs" />
     <Compile Include="IConfluentClientSettings.cs" />
+    <Compile Include="Model\AvroLogMessage.cs" />
+    <Compile Include="Model\AvroRecord.cs" />
+    <Compile Include="Model\AvroRecordSet.cs" />
+    <Compile Include="Model\BinaryLogMessage.cs" />
+    <Compile Include="Model\BinaryRecord.cs" />
+    <Compile Include="Model\BinaryRecordSet.cs" />
+    <Compile Include="Model\ConsumerInstance.cs" />
+    <Compile Include="Model\CreateConsumerRequest.cs" />
+    <Compile Include="Model\LogMessage.cs" />
+    <Compile Include="Model\MessageFormat.cs" />
+    <Compile Include="Model\ConsumerOffset.cs" />
     <Compile Include="Model\Record.cs" />
     <Compile Include="Model\ConfluentResponse.cs" />
     <Compile Include="Model\Error.cs" />

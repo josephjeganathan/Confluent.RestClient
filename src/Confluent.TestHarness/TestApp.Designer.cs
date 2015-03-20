@@ -43,6 +43,11 @@
             this.button2 = new System.Windows.Forms.Button();
             this.buttonBinary = new System.Windows.Forms.Button();
             this.buttonAvro = new System.Windows.Forms.Button();
+            this.buttonCreateBinaryConsumer = new System.Windows.Forms.Button();
+            this.buttonCreateAvroConsumer = new System.Windows.Forms.Button();
+            this.buttonCommitOffset = new System.Windows.Forms.Button();
+            this.buttonConsumerBinary = new System.Windows.Forms.Button();
+            this.buttonConsumeAvro = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // textBoxLog
@@ -171,7 +176,7 @@
             // 
             this.buttonBinary.Location = new System.Drawing.Point(383, 4);
             this.buttonBinary.Name = "buttonBinary";
-            this.buttonBinary.Size = new System.Drawing.Size(126, 23);
+            this.buttonBinary.Size = new System.Drawing.Size(129, 23);
             this.buttonBinary.TabIndex = 3;
             this.buttonBinary.Text = "Publish Binary";
             this.buttonBinary.UseVisualStyleBackColor = true;
@@ -181,11 +186,61 @@
             // 
             this.buttonAvro.Location = new System.Drawing.Point(383, 32);
             this.buttonAvro.Name = "buttonAvro";
-            this.buttonAvro.Size = new System.Drawing.Size(126, 23);
+            this.buttonAvro.Size = new System.Drawing.Size(129, 23);
             this.buttonAvro.TabIndex = 3;
             this.buttonAvro.Text = "Publish Avro";
             this.buttonAvro.UseVisualStyleBackColor = true;
             this.buttonAvro.Click += new System.EventHandler(this.buttonAvro_Click);
+            // 
+            // buttonCreateBinaryConsumer
+            // 
+            this.buttonCreateBinaryConsumer.Location = new System.Drawing.Point(383, 60);
+            this.buttonCreateBinaryConsumer.Name = "buttonCreateBinaryConsumer";
+            this.buttonCreateBinaryConsumer.Size = new System.Drawing.Size(129, 23);
+            this.buttonCreateBinaryConsumer.TabIndex = 3;
+            this.buttonCreateBinaryConsumer.Text = "Create Binary Consumer";
+            this.buttonCreateBinaryConsumer.UseVisualStyleBackColor = true;
+            this.buttonCreateBinaryConsumer.Click += new System.EventHandler(this.buttonCreateBinaryConsumer_Click);
+            // 
+            // buttonCreateAvroConsumer
+            // 
+            this.buttonCreateAvroConsumer.Location = new System.Drawing.Point(383, 86);
+            this.buttonCreateAvroConsumer.Name = "buttonCreateAvroConsumer";
+            this.buttonCreateAvroConsumer.Size = new System.Drawing.Size(129, 23);
+            this.buttonCreateAvroConsumer.TabIndex = 3;
+            this.buttonCreateAvroConsumer.Text = "Create Avro Consumer";
+            this.buttonCreateAvroConsumer.UseVisualStyleBackColor = true;
+            this.buttonCreateAvroConsumer.Click += new System.EventHandler(this.buttonCreateAvroConsumer_Click);
+            // 
+            // buttonCommitOffset
+            // 
+            this.buttonCommitOffset.Location = new System.Drawing.Point(518, 60);
+            this.buttonCommitOffset.Name = "buttonCommitOffset";
+            this.buttonCommitOffset.Size = new System.Drawing.Size(129, 23);
+            this.buttonCommitOffset.TabIndex = 3;
+            this.buttonCommitOffset.Text = "Commit Offset";
+            this.buttonCommitOffset.UseVisualStyleBackColor = true;
+            this.buttonCommitOffset.Click += new System.EventHandler(this.buttonCommitOffset_Click);
+            // 
+            // buttonConsumerBinary
+            // 
+            this.buttonConsumerBinary.Location = new System.Drawing.Point(518, 4);
+            this.buttonConsumerBinary.Name = "buttonConsumerBinary";
+            this.buttonConsumerBinary.Size = new System.Drawing.Size(129, 23);
+            this.buttonConsumerBinary.TabIndex = 3;
+            this.buttonConsumerBinary.Text = "Consume Binary";
+            this.buttonConsumerBinary.UseVisualStyleBackColor = true;
+            this.buttonConsumerBinary.Click += new System.EventHandler(this.buttonConsumerBinary_Click);
+            // 
+            // buttonConsumeAvro
+            // 
+            this.buttonConsumeAvro.Location = new System.Drawing.Point(518, 32);
+            this.buttonConsumeAvro.Name = "buttonConsumeAvro";
+            this.buttonConsumeAvro.Size = new System.Drawing.Size(129, 23);
+            this.buttonConsumeAvro.TabIndex = 3;
+            this.buttonConsumeAvro.Text = "Consume Avro";
+            this.buttonConsumeAvro.UseVisualStyleBackColor = true;
+            this.buttonConsumeAvro.Click += new System.EventHandler(this.buttonConsumeAvro_Click);
             // 
             // TestApp
             // 
@@ -195,6 +250,11 @@
             this.Controls.Add(this.button2);
             this.Controls.Add(this.buttonGetPartitions);
             this.Controls.Add(this.buttonGetTopicMetadata);
+            this.Controls.Add(this.buttonConsumeAvro);
+            this.Controls.Add(this.buttonConsumerBinary);
+            this.Controls.Add(this.buttonCommitOffset);
+            this.Controls.Add(this.buttonCreateAvroConsumer);
+            this.Controls.Add(this.buttonCreateBinaryConsumer);
             this.Controls.Add(this.buttonAvro);
             this.Controls.Add(this.buttonBinary);
             this.Controls.Add(this.buttonGetTopics);
@@ -231,6 +291,11 @@
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button buttonBinary;
         private System.Windows.Forms.Button buttonAvro;
+        private System.Windows.Forms.Button buttonCreateBinaryConsumer;
+        private System.Windows.Forms.Button buttonCreateAvroConsumer;
+        private System.Windows.Forms.Button buttonCommitOffset;
+        private System.Windows.Forms.Button buttonConsumerBinary;
+        private System.Windows.Forms.Button buttonConsumeAvro;
     }
 }
 

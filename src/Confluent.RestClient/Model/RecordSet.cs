@@ -1,22 +1,9 @@
-﻿using System.Collections.Generic;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 namespace Confluent.RestClient.Model
 {
-    public class RecordSet<TKey, TValue>
-        where TKey : class
-        where TValue : class
+    public abstract class RecordSet
     {
-        public RecordSet()
-        {
-            Records = new List<Record<TKey, TValue>>();
-        }
-
-        public RecordSet(params Record<TKey, TValue>[] records)
-        {
-            Records = new List<Record<TKey, TValue>>(records);
-        }
-
         [JsonProperty(PropertyName = "key_schema_id")]
         public int? KeySchemaId { get; set; }
 
@@ -28,8 +15,5 @@ namespace Confluent.RestClient.Model
 
         [JsonProperty(PropertyName = "value_schema")]
         public string ValueSchema { get; set; }
-
-        [JsonProperty(PropertyName = "records")]
-        public List<Record<TKey,TValue>> Records { get; private set; }
     }
 }

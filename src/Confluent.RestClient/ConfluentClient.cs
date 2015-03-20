@@ -10,8 +10,10 @@ namespace Confluent.RestClient
 {
     public class ConfluentClient : IConfluentClient
     {
+        private readonly IConfluentClientSettings _clientSettings;
         private const string ContentTypeKafkaBinary = "application/vnd.kafka.binary.v1+json";
         private const string ContentTypeKafkaAvro = "application/vnd.kafka.avro.v1+json";
+        private const string ContentTypeKafkaDefault = "application/vnd.kafka.v1+json";
 
         private readonly HttpClient _client;
 
@@ -21,10 +23,8 @@ namespace Confluent.RestClient
 
         public ConfluentClient(IConfluentClientSettings clientSettings)
         {
-            _client = new HttpClient
-            {
-                BaseAddress = new Uri(clientSettings.KafkaBaseUrl)
-            };
+            _clientSettings = clientSettings;
+            _client = new HttpClient();
         }
 
         public async Task<ConfluentResponse<List<string>>> GetTopicsAsync()
@@ -34,51 +34,118 @@ namespace Confluent.RestClient
             return await SendRequest<List<string>>(request);
         }
 
-        public async Task<ConfluentResponse<Topic>> GetTopicMetadataAsync(string topicName)
+        public async Task<ConfluentResponse<Topic>> GetTopicMetadataAsync(string topic)
         {
-            string requestUri = string.Format("/topics/{0}", topicName);
+            string requestUri = string.Format("/topics/{0}", topic);
             HttpRequestMessage request = CreateRequestMessage(HttpMethod.Get, requestUri);
 
             return await SendRequest<Topic>(request);
         }
 
-        public async Task<ConfluentResponse<List<Partition>>> GetTopicPartitionsAsync(string topicName)
+        public async Task<ConfluentResponse<List<Partition>>> GetTopicPartitionsAsync(string topic)
         {
-            string requestUri = string.Format("/topics/{0}/partitions", topicName);
+            string requestUri = string.Format("/topics/{0}/partitions", topic);
             HttpRequestMessage request = CreateRequestMessage(HttpMethod.Get, requestUri);
 
             return await SendRequest<List<Partition>>(request);
         }
 
-        public async Task<ConfluentResponse<Partition>> GetTopicPartitionAsync(string topicName, int partitionId)
+        public async Task<ConfluentResponse<Partition>> GetTopicPartitionAsync(
+            string topic, 
+            int partitionId)
         {
-            string requestUri = string.Format("/topics/{0}/partitions/{1}", topicName, partitionId);
+            string requestUri = string.Format("/topics/{0}/partitions/{1}", topic, partitionId);
             HttpRequestMessage request = CreateRequestMessage(HttpMethod.Get, requestUri);
 
             return await SendRequest<Partition>(request);
         }
 
-        public async Task<ConfluentResponse<PublishResponse>> PublishAsBinaryAsync<TKey>(string topicName, RecordSet<TKey, string> recordSet)
-            where TKey :class
+        public async Task<ConfluentResponse<PublishResponse>> PublishAsBinaryAsync(
+            string topic, 
+            BinaryRecordSet recordSet)
         {
-            string requestUri = string.Format("/topics/{0}", topicName);
-            HttpRequestMessage request = CreateRequestMessage(HttpMethod.Post, requestUri).WithContent(recordSet, ContentTypeKafkaBinary);
+            string requestUri = string.Format("/topics/{0}", topic);
+
+            HttpRequestMessage request = CreateRequestMessage(HttpMethod.Post, requestUri)
+                .WithContent(recordSet, ContentTypeKafkaBinary);
 
             return await SendRequest<PublishResponse>(request);
         }
 
-        public async Task<ConfluentResponse<PublishResponse>> PublishAsAvroAsync<TKey, TValue>(string topicName, RecordSet<TKey, TValue> recordSet)
+        public async Task<ConfluentResponse<PublishResponse>> PublishAsAvroAsync<TKey, TValue>(
+            string topic, 
+            AvroRecordSet<TKey, TValue> recordSet)
             where TKey : class
             where TValue : class
         {
-            string requestUri = string.Format("/topics/{0}", topicName);
-            HttpRequestMessage request = CreateRequestMessage(HttpMethod.Post, requestUri).WithContent(recordSet, ContentTypeKafkaAvro);
+            string requestUri = string.Format("/topics/{0}", topic);
+
+            HttpRequestMessage request = CreateRequestMessage(HttpMethod.Post, requestUri)
+                .WithContent(recordSet, ContentTypeKafkaAvro);
 
             return await SendRequest<PublishResponse>(request);
         }
 
-        private static HttpRequestMessage CreateRequestMessage(HttpMethod method, string requestUri)
+        public async Task<ConfluentResponse<ConsumerInstance>> CreateConsumerAsync(
+            string consumerGroupName, 
+            CreateConsumerRequest createConsumerRequest)
         {
+            string requestUri = string.Format("/consumers/{0}", consumerGroupName);
+
+            HttpRequestMessage request = CreateRequestMessage(HttpMethod.Post, requestUri)
+                .WithContent(createConsumerRequest, ContentTypeKafkaDefault)
+                .WithHostHeader(_clientSettings.KafkaBaseUrl);
+
+            return await SendRequest<ConsumerInstance>(request);
+        }
+
+        public async Task<ConfluentResponse<List<BinaryLogMessage>>> ConsumeAsBinaryAsync(
+            ConsumerInstance consumerInstance, 
+            string consumerGroupName, 
+            string topic)
+        {
+            string requestUri = string.Format("/consumers/{0}/instances/{1}/topics/{2}", consumerGroupName, consumerInstance.InstanceId, topic);
+
+            HttpRequestMessage request = CreateRequestMessage(HttpMethod.Get, requestUri)
+                .WithContentType(ContentTypeKafkaBinary)
+                .WithHostHeader(consumerInstance.BaseUri);
+
+            return await SendRequest<List<BinaryLogMessage>>(request);
+        }
+
+        public async Task<ConfluentResponse<List<AvroLogMessage<TKey, TValue>>>> ConsumeAsAvroAsync<TKey, TValue>(
+            ConsumerInstance consumerInstance,
+            string consumerGroupName,
+            string topic)
+            where TKey : class
+            where TValue : class
+        {
+            string requestUri = string.Format("/consumers/{0}/instances/{1}/topics/{2}", consumerGroupName, consumerInstance.InstanceId, topic);
+
+            HttpRequestMessage request = CreateRequestMessage(HttpMethod.Get, requestUri)
+                .WithContentType(ContentTypeKafkaAvro)
+                .WithHostHeader(consumerInstance.BaseUri);
+
+            return await SendRequest<List<AvroLogMessage<TKey, TValue>>>(request);
+        }
+        
+        public async Task<ConfluentResponse<List<ConsumerOffset>>> CommitOffsetAsync(
+            ConsumerInstance consumerInstance,
+            string consumerGroupName)
+        {
+            string requestUri = string.Format("/consumers/{0}/instances/{1}/offsets", consumerGroupName, consumerInstance.InstanceId);
+
+            HttpRequestMessage request = CreateRequestMessage(HttpMethod.Post, requestUri)
+                .WithContentType(ContentTypeKafkaDefault)
+                .WithHostHeader(consumerInstance.BaseUri);
+
+            return await SendRequest<List<ConsumerOffset>>(request);
+        }
+
+        private HttpRequestMessage CreateRequestMessage(HttpMethod method, string requestUri, string baseUri = null)
+        {
+            requestUri = string.Format("{0}{1}", string.IsNullOrWhiteSpace(baseUri) ? _clientSettings.KafkaBaseUrl : baseUri, requestUri);
+
             return new HttpRequestMessage(method, requestUri);
         }
 

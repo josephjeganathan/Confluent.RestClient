@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Configuration;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -14,11 +14,12 @@ namespace Confluent.TestHarness
         private const string ValueSchema = @"{""type"":""record"",""name"":""Confluent.TestHarness.Person"",""fields"":[{""name"":""Name"",""type"":""string""},{""name"":""Age"",""type"":""int""}]}";
         private readonly ConfluentClient _confluentClient;
         private readonly Random _random = new Random();
+        private readonly string _baseUrl = ConfigurationManager.AppSettings["Confluent.KafkaBaseUrl"];
 
         public TestApp()
         {
             InitializeComponent();
-            _confluentClient = new ConfluentClient();
+            _confluentClient = new ConfluentClient(new ConfluentClientSettings(_baseUrl));
         }
 
         private Person GetPerson()
@@ -101,18 +102,18 @@ namespace Confluent.TestHarness
             {
                 var records = new[]
                 {
-                    new Record<string, string>
+                    new BinaryRecord
                     {
                         PartitionId = Convert.ToInt32(textBoxPartitionId.Text),
                         Value = ToBase64(GetPerson())
                     },
-                    new Record<string, string>
+                    new BinaryRecord
                     {
                         Key = Guid.NewGuid().ToString("N"),
                         Value = ToBase64(GetPerson())
                     }
                 };
-                var recordSet = new RecordSet<string, string>(records);
+                var recordSet = new BinaryRecordSet(records);
 
                 return _confluentClient.PublishAsBinaryAsync(textBoxTopic.Text, recordSet).Result;
             });
@@ -124,20 +125,66 @@ namespace Confluent.TestHarness
             {
                 var records = new[]
                 {
-                    new Record<string, Person>
+                    new AvroRecord<string, Person>
                     {
                         PartitionId = Convert.ToInt32(textBoxPartitionId.Text),
                         Value = GetPerson()
                     },
-                    new Record<string, Person>
+                    new AvroRecord<string, Person>
                     {
                         Value = GetPerson()
                     }
                 };
-                var recordSet = new RecordSet<string, Person>(records) { ValueSchema = ValueSchema };
+                var recordSet = new AvroRecordSet<string, Person>(records) { ValueSchema = ValueSchema };
 
                 return _confluentClient.PublishAsAvroAsync(textBoxTopic.Text, recordSet).Result;
             });
+        }
+
+        private void buttonCreateBinaryConsumer_Click(object sender, EventArgs e)
+        {
+            Run(() => _confluentClient.CreateConsumerAsync(textBoxConsumerGroup.Text, new CreateConsumerRequest
+            {
+                Id = textBoxConsumerId.Text,
+                MessageFormat = MessageFormat.Binary
+            }).Result);
+        }
+
+        private void buttonCreateAvroConsumer_Click(object sender, EventArgs e)
+        {
+            Run(() => _confluentClient.CreateConsumerAsync(textBoxConsumerGroup.Text, new CreateConsumerRequest
+            {
+                Id = textBoxConsumerId.Text,
+                MessageFormat = MessageFormat.Avro
+            }).Result);
+        }
+
+        private void buttonConsumerBinary_Click(object sender, EventArgs e)
+        {
+            Run(() => _confluentClient.ConsumeAsBinaryAsync(new ConsumerInstance
+            {
+                BaseUri = string.Format("{0}/consumers/{1}/instances/{2}", _baseUrl, textBoxConsumerGroup.Text, textBoxConsumerId.Text),
+                InstanceId = textBoxConsumerId.Text
+            }, textBoxConsumerGroup.Text, textBoxTopic.Text).Result);
+        }
+
+        private void buttonConsumeAvro_Click(object sender, EventArgs e)
+        {
+            Run(() => _confluentClient.ConsumeAsAvroAsync<string, Person>(new ConsumerInstance
+            {
+                BaseUri = string.Format("{0}/consumers/{1}/instances/{2}", _baseUrl, textBoxConsumerGroup.Text, textBoxConsumerId.Text),
+                InstanceId = textBoxConsumerId.Text
+            }, textBoxConsumerGroup.Text, textBoxTopic.Text).Result);
+
+        }
+
+        private void buttonCommitOffset_Click(object sender, EventArgs e)
+        {
+            Run(() => _confluentClient.CommitOffsetAsync(new ConsumerInstance
+            {
+                BaseUri = string.Format("{0}/consumers/{1}/instances/{2}", _baseUrl, textBoxConsumerGroup.Text, textBoxConsumerId.Text),
+                InstanceId = textBoxConsumerId.Text
+            }, textBoxConsumerGroup.Text).Result);
         }
     }
 }
