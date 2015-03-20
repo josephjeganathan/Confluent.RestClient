@@ -32,7 +32,7 @@ namespace Confluent.TestHarness
             return Convert.ToBase64String(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(data)));
         }
 
-        private void Run<TResponse>(Func<ConfluentResponse<TResponse>> operation) where TResponse : class
+        private void Run(Func<ConfluentResponse> operation)
         {
             Task.Run(() =>
             {
@@ -48,7 +48,7 @@ namespace Confluent.TestHarness
 
         }
 
-        private void WriteLog<TResponse>(ConfluentResponse<TResponse> response) where TResponse : class
+        private void WriteLog(ConfluentResponse response)
         {
             WriteLog(JsonConvert.SerializeObject(response, Formatting.Indented));
         }
@@ -181,6 +181,15 @@ namespace Confluent.TestHarness
         private void buttonCommitOffset_Click(object sender, EventArgs e)
         {
             Run(() => _confluentClient.CommitOffsetAsync(new ConsumerInstance
+            {
+                BaseUri = string.Format("{0}/consumers/{1}/instances/{2}", _baseUrl, textBoxConsumerGroup.Text, textBoxConsumerId.Text),
+                InstanceId = textBoxConsumerId.Text
+            }, textBoxConsumerGroup.Text).Result);
+        }
+
+        private void buttonDeleteConsumer_Click(object sender, EventArgs e)
+        {
+            Run(() => _confluentClient.DeleteConsumerAsync(new ConsumerInstance
             {
                 BaseUri = string.Format("{0}/consumers/{1}/instances/{2}", _baseUrl, textBoxConsumerGroup.Text, textBoxConsumerId.Text),
                 InstanceId = textBoxConsumerId.Text

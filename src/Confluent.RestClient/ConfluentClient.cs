@@ -142,6 +142,26 @@ namespace Confluent.RestClient
             return await SendRequest<List<ConsumerOffset>>(request);
         }
 
+        public async Task<ConfluentResponse> DeleteConsumerAsync(
+            ConsumerInstance consumerInstance,
+            string consumerGroupName)
+        {
+            string requestUri = string.Format("/consumers/{0}/instances/{1}", consumerGroupName, consumerInstance.InstanceId);
+
+            HttpRequestMessage request = CreateRequestMessage(HttpMethod.Delete, requestUri)
+                .WithContentType(ContentTypeKafkaDefault)
+                .WithHostHeader(consumerInstance.BaseUri);
+
+            HttpResponseMessage response = await _client.SendAsync(request);
+
+            if (response.IsSuccessStatusCode)
+            {
+                return ConfluentResponse.Success();
+            }
+
+            return ConfluentResponse.Failed(await ReadResponseAs<Error>(response));
+        }
+
         private HttpRequestMessage CreateRequestMessage(HttpMethod method, string requestUri, string baseUri = null)
         {
             requestUri = string.Format("{0}{1}", string.IsNullOrWhiteSpace(baseUri) ? _clientSettings.KafkaBaseUrl : baseUri, requestUri);

@@ -48,6 +48,7 @@
             this.buttonCommitOffset = new System.Windows.Forms.Button();
             this.buttonConsumerBinary = new System.Windows.Forms.Button();
             this.buttonConsumeAvro = new System.Windows.Forms.Button();
+            this.buttonDeleteConsumer = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // textBoxLog
@@ -242,6 +243,16 @@
             this.buttonConsumeAvro.UseVisualStyleBackColor = true;
             this.buttonConsumeAvro.Click += new System.EventHandler(this.buttonConsumeAvro_Click);
             // 
+            // buttonDeleteConsumer
+            // 
+            this.buttonDeleteConsumer.Location = new System.Drawing.Point(518, 86);
+            this.buttonDeleteConsumer.Name = "buttonDeleteConsumer";
+            this.buttonDeleteConsumer.Size = new System.Drawing.Size(129, 23);
+            this.buttonDeleteConsumer.TabIndex = 3;
+            this.buttonDeleteConsumer.Text = "Delete Consumer";
+            this.buttonDeleteConsumer.UseVisualStyleBackColor = true;
+            this.buttonDeleteConsumer.Click += new System.EventHandler(this.buttonDeleteConsumer_Click);
+            // 
             // TestApp
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -252,6 +263,7 @@
             this.Controls.Add(this.buttonGetTopicMetadata);
             this.Controls.Add(this.buttonConsumeAvro);
             this.Controls.Add(this.buttonConsumerBinary);
+            this.Controls.Add(this.buttonDeleteConsumer);
             this.Controls.Add(this.buttonCommitOffset);
             this.Controls.Add(this.buttonCreateAvroConsumer);
             this.Controls.Add(this.buttonCreateBinaryConsumer);
@@ -296,6 +308,7 @@
         private System.Windows.Forms.Button buttonCommitOffset;
         private System.Windows.Forms.Button buttonConsumerBinary;
         private System.Windows.Forms.Button buttonConsumeAvro;
+        private System.Windows.Forms.Button buttonDeleteConsumer;
     }
 }
 
