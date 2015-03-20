@@ -56,70 +56,78 @@
             this.textBoxLog.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxLog.Location = new System.Drawing.Point(13, 115);
+            this.textBoxLog.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBoxLog.Location = new System.Drawing.Point(13, 161);
             this.textBoxLog.Multiline = true;
             this.textBoxLog.Name = "textBoxLog";
             this.textBoxLog.ReadOnly = true;
             this.textBoxLog.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBoxLog.Size = new System.Drawing.Size(853, 391);
+            this.textBoxLog.Size = new System.Drawing.Size(853, 345);
             this.textBoxLog.TabIndex = 0;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(13, 9);
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(13, 11);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(40, 13);
+            this.label1.Size = new System.Drawing.Size(49, 16);
             this.label1.TabIndex = 1;
             this.label1.Text = "Topic: ";
             // 
             // textBoxTopic
             // 
-            this.textBoxTopic.Location = new System.Drawing.Point(108, 6);
+            this.textBoxTopic.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBoxTopic.Location = new System.Drawing.Point(124, 8);
             this.textBoxTopic.Name = "textBoxTopic";
-            this.textBoxTopic.Size = new System.Drawing.Size(119, 20);
+            this.textBoxTopic.Size = new System.Drawing.Size(119, 22);
             this.textBoxTopic.TabIndex = 2;
             this.textBoxTopic.Text = "test";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(13, 37);
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(13, 47);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(89, 13);
+            this.label2.Size = new System.Drawing.Size(112, 16);
             this.label2.TabIndex = 1;
             this.label2.Text = "Consumer Group:";
             // 
             // textBoxConsumerGroup
             // 
-            this.textBoxConsumerGroup.Location = new System.Drawing.Point(108, 34);
+            this.textBoxConsumerGroup.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBoxConsumerGroup.Location = new System.Drawing.Point(124, 44);
             this.textBoxConsumerGroup.Name = "textBoxConsumerGroup";
-            this.textBoxConsumerGroup.Size = new System.Drawing.Size(119, 20);
+            this.textBoxConsumerGroup.Size = new System.Drawing.Size(119, 22);
             this.textBoxConsumerGroup.TabIndex = 2;
             this.textBoxConsumerGroup.Text = "testgroup";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(13, 65);
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(12, 85);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(69, 13);
+            this.label3.Size = new System.Drawing.Size(86, 16);
             this.label3.TabIndex = 1;
             this.label3.Text = "Consumer Id:";
             // 
             // textBoxConsumerId
             // 
-            this.textBoxConsumerId.Location = new System.Drawing.Point(108, 62);
+            this.textBoxConsumerId.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBoxConsumerId.Location = new System.Drawing.Point(123, 82);
             this.textBoxConsumerId.Name = "textBoxConsumerId";
-            this.textBoxConsumerId.Size = new System.Drawing.Size(119, 20);
+            this.textBoxConsumerId.Size = new System.Drawing.Size(119, 22);
             this.textBoxConsumerId.TabIndex = 2;
             this.textBoxConsumerId.Text = "testconsumer";
             // 
             // buttonGetTopics
             // 
-            this.buttonGetTopics.Location = new System.Drawing.Point(251, 4);
+            this.buttonGetTopics.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonGetTopics.Location = new System.Drawing.Point(266, 6);
             this.buttonGetTopics.Name = "buttonGetTopics";
-            this.buttonGetTopics.Size = new System.Drawing.Size(126, 23);
+            this.buttonGetTopics.Size = new System.Drawing.Size(163, 33);
             this.buttonGetTopics.TabIndex = 3;
             this.buttonGetTopics.Text = "Get Topics";
             this.buttonGetTopics.UseVisualStyleBackColor = true;
@@ -127,9 +135,10 @@
             // 
             // buttonGetTopicMetadata
             // 
-            this.buttonGetTopicMetadata.Location = new System.Drawing.Point(251, 32);
+            this.buttonGetTopicMetadata.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonGetTopicMetadata.Location = new System.Drawing.Point(266, 44);
             this.buttonGetTopicMetadata.Name = "buttonGetTopicMetadata";
-            this.buttonGetTopicMetadata.Size = new System.Drawing.Size(126, 23);
+            this.buttonGetTopicMetadata.Size = new System.Drawing.Size(163, 33);
             this.buttonGetTopicMetadata.TabIndex = 3;
             this.buttonGetTopicMetadata.Text = "Get Topic Metadata";
             this.buttonGetTopicMetadata.UseVisualStyleBackColor = true;
@@ -138,26 +147,29 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(13, 91);
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Location = new System.Drawing.Point(12, 125);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(60, 13);
+            this.label4.Size = new System.Drawing.Size(73, 16);
             this.label4.TabIndex = 1;
             this.label4.Text = "Partition Id:";
             // 
             // textBoxPartitionId
             // 
-            this.textBoxPartitionId.Location = new System.Drawing.Point(108, 88);
+            this.textBoxPartitionId.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBoxPartitionId.Location = new System.Drawing.Point(123, 122);
             this.textBoxPartitionId.Name = "textBoxPartitionId";
-            this.textBoxPartitionId.Size = new System.Drawing.Size(119, 20);
+            this.textBoxPartitionId.Size = new System.Drawing.Size(119, 22);
             this.textBoxPartitionId.TabIndex = 2;
             this.textBoxPartitionId.Text = "0";
             this.textBoxPartitionId.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxPartitionId_KeyPress);
             // 
             // buttonGetPartitions
             // 
-            this.buttonGetPartitions.Location = new System.Drawing.Point(251, 60);
+            this.buttonGetPartitions.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonGetPartitions.Location = new System.Drawing.Point(266, 82);
             this.buttonGetPartitions.Name = "buttonGetPartitions";
-            this.buttonGetPartitions.Size = new System.Drawing.Size(126, 23);
+            this.buttonGetPartitions.Size = new System.Drawing.Size(163, 33);
             this.buttonGetPartitions.TabIndex = 3;
             this.buttonGetPartitions.Text = "Get Partitions";
             this.buttonGetPartitions.UseVisualStyleBackColor = true;
@@ -165,9 +177,10 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(251, 86);
+            this.button2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button2.Location = new System.Drawing.Point(266, 122);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(126, 23);
+            this.button2.Size = new System.Drawing.Size(163, 33);
             this.button2.TabIndex = 3;
             this.button2.Text = "Get Partition";
             this.button2.UseVisualStyleBackColor = true;
@@ -175,9 +188,10 @@
             // 
             // buttonBinary
             // 
-            this.buttonBinary.Location = new System.Drawing.Point(383, 4);
+            this.buttonBinary.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonBinary.Location = new System.Drawing.Point(433, 6);
             this.buttonBinary.Name = "buttonBinary";
-            this.buttonBinary.Size = new System.Drawing.Size(129, 23);
+            this.buttonBinary.Size = new System.Drawing.Size(163, 33);
             this.buttonBinary.TabIndex = 3;
             this.buttonBinary.Text = "Publish Binary";
             this.buttonBinary.UseVisualStyleBackColor = true;
@@ -185,9 +199,10 @@
             // 
             // buttonAvro
             // 
-            this.buttonAvro.Location = new System.Drawing.Point(383, 32);
+            this.buttonAvro.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonAvro.Location = new System.Drawing.Point(433, 44);
             this.buttonAvro.Name = "buttonAvro";
-            this.buttonAvro.Size = new System.Drawing.Size(129, 23);
+            this.buttonAvro.Size = new System.Drawing.Size(163, 33);
             this.buttonAvro.TabIndex = 3;
             this.buttonAvro.Text = "Publish Avro";
             this.buttonAvro.UseVisualStyleBackColor = true;
@@ -195,9 +210,10 @@
             // 
             // buttonCreateBinaryConsumer
             // 
-            this.buttonCreateBinaryConsumer.Location = new System.Drawing.Point(383, 60);
+            this.buttonCreateBinaryConsumer.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonCreateBinaryConsumer.Location = new System.Drawing.Point(433, 82);
             this.buttonCreateBinaryConsumer.Name = "buttonCreateBinaryConsumer";
-            this.buttonCreateBinaryConsumer.Size = new System.Drawing.Size(129, 23);
+            this.buttonCreateBinaryConsumer.Size = new System.Drawing.Size(163, 33);
             this.buttonCreateBinaryConsumer.TabIndex = 3;
             this.buttonCreateBinaryConsumer.Text = "Create Binary Consumer";
             this.buttonCreateBinaryConsumer.UseVisualStyleBackColor = true;
@@ -205,9 +221,10 @@
             // 
             // buttonCreateAvroConsumer
             // 
-            this.buttonCreateAvroConsumer.Location = new System.Drawing.Point(383, 86);
+            this.buttonCreateAvroConsumer.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonCreateAvroConsumer.Location = new System.Drawing.Point(433, 122);
             this.buttonCreateAvroConsumer.Name = "buttonCreateAvroConsumer";
-            this.buttonCreateAvroConsumer.Size = new System.Drawing.Size(129, 23);
+            this.buttonCreateAvroConsumer.Size = new System.Drawing.Size(163, 33);
             this.buttonCreateAvroConsumer.TabIndex = 3;
             this.buttonCreateAvroConsumer.Text = "Create Avro Consumer";
             this.buttonCreateAvroConsumer.UseVisualStyleBackColor = true;
@@ -215,9 +232,10 @@
             // 
             // buttonCommitOffset
             // 
-            this.buttonCommitOffset.Location = new System.Drawing.Point(518, 60);
+            this.buttonCommitOffset.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonCommitOffset.Location = new System.Drawing.Point(600, 82);
             this.buttonCommitOffset.Name = "buttonCommitOffset";
-            this.buttonCommitOffset.Size = new System.Drawing.Size(129, 23);
+            this.buttonCommitOffset.Size = new System.Drawing.Size(163, 33);
             this.buttonCommitOffset.TabIndex = 3;
             this.buttonCommitOffset.Text = "Commit Offset";
             this.buttonCommitOffset.UseVisualStyleBackColor = true;
@@ -225,9 +243,10 @@
             // 
             // buttonConsumerBinary
             // 
-            this.buttonConsumerBinary.Location = new System.Drawing.Point(518, 4);
+            this.buttonConsumerBinary.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonConsumerBinary.Location = new System.Drawing.Point(600, 6);
             this.buttonConsumerBinary.Name = "buttonConsumerBinary";
-            this.buttonConsumerBinary.Size = new System.Drawing.Size(129, 23);
+            this.buttonConsumerBinary.Size = new System.Drawing.Size(163, 33);
             this.buttonConsumerBinary.TabIndex = 3;
             this.buttonConsumerBinary.Text = "Consume Binary";
             this.buttonConsumerBinary.UseVisualStyleBackColor = true;
@@ -235,9 +254,10 @@
             // 
             // buttonConsumeAvro
             // 
-            this.buttonConsumeAvro.Location = new System.Drawing.Point(518, 32);
+            this.buttonConsumeAvro.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonConsumeAvro.Location = new System.Drawing.Point(600, 44);
             this.buttonConsumeAvro.Name = "buttonConsumeAvro";
-            this.buttonConsumeAvro.Size = new System.Drawing.Size(129, 23);
+            this.buttonConsumeAvro.Size = new System.Drawing.Size(163, 33);
             this.buttonConsumeAvro.TabIndex = 3;
             this.buttonConsumeAvro.Text = "Consume Avro";
             this.buttonConsumeAvro.UseVisualStyleBackColor = true;
@@ -245,9 +265,10 @@
             // 
             // buttonDeleteConsumer
             // 
-            this.buttonDeleteConsumer.Location = new System.Drawing.Point(518, 86);
+            this.buttonDeleteConsumer.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonDeleteConsumer.Location = new System.Drawing.Point(600, 122);
             this.buttonDeleteConsumer.Name = "buttonDeleteConsumer";
-            this.buttonDeleteConsumer.Size = new System.Drawing.Size(129, 23);
+            this.buttonDeleteConsumer.Size = new System.Drawing.Size(163, 33);
             this.buttonDeleteConsumer.TabIndex = 3;
             this.buttonDeleteConsumer.Text = "Delete Consumer";
             this.buttonDeleteConsumer.UseVisualStyleBackColor = true;

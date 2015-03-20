@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<package>
+  <metadata>
+    <id>Confluent.RestClient</id>
+    <version>1.0.0.0</version>
+    <authors>Joseph Jeganathan</authors>
+    <owners>Joseph Jeganathan</owners>
+    <description>Confluent.io Kafka Client Libraries</description>
+    <language>en-GB</language>
+    <tags>kafka</tags>
+    <dependencies>
+      <dependency id="Microsoft.AspNet.WebApi.Client" version="5.2.3" />
+      <dependency id="Newtonsoft.Json" version="6.0.4" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="src\Confluent.RestClient\bin\Release\Confluent.RestClient.dll" target="lib\net45" />
+  </files>
+</package>
