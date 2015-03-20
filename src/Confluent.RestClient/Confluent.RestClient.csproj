@@ -52,9 +52,13 @@
     <Compile Include="HttpRequestMessageExtensions.cs" />
     <Compile Include="IConfluentClient.cs" />
     <Compile Include="IConfluentClientSettings.cs" />
+    <Compile Include="Model\Record.cs" />
     <Compile Include="Model\ConfluentResponse.cs" />
     <Compile Include="Model\Error.cs" />
+    <Compile Include="Model\OffSet.cs" />
     <Compile Include="Model\Partition.cs" />
+    <Compile Include="Model\PublishResponse.cs" />
+    <Compile Include="Model\RecordSet.cs" />
     <Compile Include="Model\Replica.cs" />
     <Compile Include="Model\TopicConfiguration.cs" />
     <Compile Include="Model\Topic.cs" />

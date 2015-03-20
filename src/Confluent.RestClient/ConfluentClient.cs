@@ -58,6 +58,25 @@ namespace Confluent.RestClient
             return await SendRequest<Partition>(request);
         }
 
+        public async Task<ConfluentResponse<PublishResponse>> PublishAsBinaryAsync<TKey>(string topicName, RecordSet<TKey, string> recordSet)
+            where TKey :class
+        {
+            string requestUri = string.Format("/topics/{0}", topicName);
+            HttpRequestMessage request = CreateRequestMessage(HttpMethod.Post, requestUri).WithContent(recordSet, ContentTypeKafkaBinary);
+
+            return await SendRequest<PublishResponse>(request);
+        }
+
+        public async Task<ConfluentResponse<PublishResponse>> PublishAsAvroAsync<TKey, TValue>(string topicName, RecordSet<TKey, TValue> recordSet)
+            where TKey : class
+            where TValue : class
+        {
+            string requestUri = string.Format("/topics/{0}", topicName);
+            HttpRequestMessage request = CreateRequestMessage(HttpMethod.Post, requestUri).WithContent(recordSet, ContentTypeKafkaAvro);
+
+            return await SendRequest<PublishResponse>(request);
+        }
+
         private static HttpRequestMessage CreateRequestMessage(HttpMethod method, string requestUri)
         {
             return new HttpRequestMessage(method, requestUri);
