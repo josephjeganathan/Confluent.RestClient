@@ -10,8 +10,8 @@ function xmlPoke($file, $xpath, $value){
 }
 
 if ($env:APPVEYOR_REPO_TAG -eq $true){
-	xmlPoke (Get-ChildItem ".\Confluent.RestClient.nuspec") "/package/metadata/version" $env:APPVEYOR_REPO_TAG_NAME
+	xmlPoke (Get-ChildItem ".\src\_SolutionItems\Confluent.RestClient.nuspec") "/package/metadata/version" $env:APPVEYOR_REPO_TAG_NAME
 }
 else{
-	xmlPoke (Get-ChildItem ".\Confluent.RestClient.nuspec") "/package/metadata/version" $env:APPVEYOR_BUILD_VERSION
+	xmlPoke (Get-ChildItem ".\src\_SolutionItems\Confluent.RestClient.nuspec") "/package/metadata/version" $env:APPVEYOR_BUILD_VERSION
 }
