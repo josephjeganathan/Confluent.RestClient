@@ -1,5 +1,24 @@
-deploy:
-  provider: NuGet
-  api_key:
-    secure: jnk9ZJYNCy4FWHCe3e35K8PHuBGBCT5ZTfVQZJZEhTJc3DR1Re+amJ4GAqg1lDr5
-  artifact: /.*\.nupkg/
+version: 1.0.0.{build}
+configuration: Release
+platform: Any CPU
+
+assembly_info:
+  patch: true
+  file: '**\AssemblyInfo.*'
+  assembly_version: '{version}'
+  assembly_file_version: '{version}'
+  assembly_informational_version: '{version}'
+
+before_build:
+- ps: .\src\_SolutionItems\poke-nuget-version.ps1
+
+build:
+  project: src/Confluent.RestClient.sln
+  publish_nuget: true
+  verbosity: minimal
+
+after_build:
+- .\src\_SolutionItems\pack-nuget.bat
+
+artifacts:
+- path: .\*.nupkg

@@ -7,6 +7,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Confluent.RestClient", "Con
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Confluent.TestHarness", "Confluent.TestHarness\Confluent.TestHarness.csproj", "{B42AB312-4EA4-4A1B-9015-73FBF3A99307}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{75696C6E-45D9-4128-8E55-4B3016224CE7}"
+	ProjectSection(SolutionItems) = preProject
+		_SolutionItems\Confluent.RestClient.nuspec = _SolutionItems\Confluent.RestClient.nuspec
+		_SolutionItems\pack-nuget.bat = _SolutionItems\pack-nuget.bat
+		_SolutionItems\poke-nuget-version.ps1 = _SolutionItems\poke-nuget-version.ps1
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
