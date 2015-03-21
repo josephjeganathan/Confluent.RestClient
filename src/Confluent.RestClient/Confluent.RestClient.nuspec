@@ -14,6 +14,6 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="src\Confluent.RestClient\bin\Release\Confluent.RestClient.dll" target="lib\net45" />
+    <file src="bin\Release\Confluent.RestClient.dll" target="lib\net45" />
   </files>
 </package>
