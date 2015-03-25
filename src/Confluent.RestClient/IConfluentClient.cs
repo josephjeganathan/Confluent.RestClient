@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Confluent.RestClient.Model;
 
@@ -8,7 +9,7 @@ namespace Confluent.RestClient
     /// Restful client for Confluent REST API
     /// http://confluent.io/docs/current/kafka-rest/docs/api.html
     /// </summary>
-    public interface IConfluentClient
+    public interface IConfluentClient : IDisposable
     {
         /// <summary>
         /// Get a list of Kafka topics
