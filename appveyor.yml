@@ -10,7 +10,10 @@ assembly_info:
   assembly_informational_version: '{version}'
 
 before_build:
-- ps: .\src\_SolutionItems\patch-nuget-version.ps1
+- ps: >-
+    nuget restore .\src\Confluent.RestClient.sln
+
+    .\src\_SolutionItems\patch-nuget-version.ps1
 
 build:
   project: src/Confluent.RestClient.sln
