@@ -8,7 +8,7 @@ using Newtonsoft.Json;
 
 namespace Confluent.RestClient
 {
-    public class ConfluentClient : IConfluentClient
+    public class ConfluentClient : IConfluentClient, IDisposable
     {
         private readonly IConfluentClientSettings _clientSettings;
         private const string ContentTypeKafkaBinary = "application/vnd.kafka.binary.v1+json";
@@ -192,6 +192,14 @@ namespace Confluent.RestClient
                 var serializer = new JsonSerializer();
 
                 return serializer.Deserialize<TResponse>(reader);
+            }
+        }
+
+        public void Dispose()
+        {
+            if (_client != null)
+            {
+                _client.Dispose();
             }
         }
     }

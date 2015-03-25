@@ -145,7 +145,7 @@ namespace Confluent.TestHarness
         {
             Run(() => _confluentClient.CreateConsumerAsync(textBoxConsumerGroup.Text, new CreateConsumerRequest
             {
-                Id = textBoxConsumerId.Text,
+                InstanceId = textBoxConsumerId.Text,
                 MessageFormat = MessageFormat.Binary
             }).Result);
         }
@@ -154,7 +154,7 @@ namespace Confluent.TestHarness
         {
             Run(() => _confluentClient.CreateConsumerAsync(textBoxConsumerGroup.Text, new CreateConsumerRequest
             {
-                Id = textBoxConsumerId.Text,
+                InstanceId = textBoxConsumerId.Text,
                 MessageFormat = MessageFormat.Avro
             }).Result);
         }

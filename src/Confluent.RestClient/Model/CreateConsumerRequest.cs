@@ -11,7 +11,7 @@ namespace Confluent.RestClient.Model
         }
 
         [JsonProperty(PropertyName = "id")]
-        public string Id { get; set; }
+        public string InstanceId { get; set; }
 
         [JsonProperty(PropertyName = "format")]
         public string Format { get; private set; }

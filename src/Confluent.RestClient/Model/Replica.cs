@@ -8,7 +8,7 @@ namespace Confluent.RestClient.Model
         public int BrokerId { get; set; }
 
         [JsonProperty(PropertyName = "leader")]
-        public bool LeaderId { get; set; }
+        public bool Leader { get; set; }
 
         [JsonProperty(PropertyName = "in_sync")]
         public bool InSync { get; set; }
