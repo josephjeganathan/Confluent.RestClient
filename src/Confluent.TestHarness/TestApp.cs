@@ -5,14 +5,14 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Confluent.RestClient;
 using Confluent.RestClient.Model;
+using Microsoft.Hadoop.Avro;
 using Newtonsoft.Json;
 
 namespace Confluent.TestHarness
 {
     public partial class TestApp : Form
     {
-        private const string ValueSchema = @"{""type"":""record"",""name"":""Confluent.TestHarness.Person"",""fields"":[{""name"":""Name"",""type"":""string""},{""name"":""Age"",""type"":""int""}]}";
-        private readonly ConfluentClient _confluentClient;
+        private readonly IConfluentClient _confluentClient;
         private readonly Random _random = new Random();
         private readonly string _baseUrl = ConfigurationManager.AppSettings["Confluent.KafkaBaseUrl"];
 
@@ -135,7 +135,10 @@ namespace Confluent.TestHarness
                         Value = GetPerson()
                     }
                 };
-                var recordSet = new AvroRecordSet<string, Person>(records) { ValueSchema = ValueSchema };
+                var recordSet = new AvroRecordSet<string, Person>(records)
+                {
+                    ValueSchema = AvroSerializer.Create<Person>().ReaderSchema.ToString()
+                };
 
                 return _confluentClient.PublishAsAvroAsync(textBoxTopic.Text, recordSet).Result;
             });

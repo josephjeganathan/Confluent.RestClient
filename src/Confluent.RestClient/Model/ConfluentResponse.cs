@@ -1,5 +1,9 @@
 ﻿namespace Confluent.RestClient.Model
 {
+    /// <summary>
+    /// Confluent REST API response
+    /// </summary>
+    /// <typeparam name="TPayload">Payload type</typeparam>
     public class ConfluentResponse<TPayload> : ConfluentResponse where TPayload : class
     {
         protected ConfluentResponse()
@@ -19,6 +23,9 @@
         }
     }
 
+    /// <summary>
+    /// Confluent REST API response
+    /// </summary>
     public class ConfluentResponse
     {
         protected ConfluentResponse()
