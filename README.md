@@ -73,7 +73,7 @@ IConfluentClient client = new ConfluentClient(settings);
                 
 var request = new CreateConsumerRequest
 {
-    // Confulent API will create a new InstanceId if not supplied
+    // Confluent API will create a new InstanceId if not supplied
     InstanceId = "TestConsumerInstance",
     MessageFormat = MessageFormat.Avro
 };
@@ -88,7 +88,7 @@ ConsumerInstance consumerInstance = response.Payload;
 IConfluentClient client = new ConfluentClient(settings);
 
 ConfluentResponse<List<AvroLogMessage<string, Person>>> response
-    = await client.ConsumeAsAvroAsync<string, Person>(consumerInstance, "TestConsumerInstance", "TestTopic");
+    = await client.ConsumeAsAvroAsync<string, Person>(consumerInstance, "TestTopic");
 
 foreach (AvroLogMessage<string, Person> message in response.Payload)
 {
@@ -100,5 +100,5 @@ foreach (AvroLogMessage<string, Person> message in response.Payload)
 #### Commit offset
 
 ```C#
-await client.CommitOffsetAsync(consumerInstance, "TestConsumerGroup");
+await client.CommitOffsetAsync(consumerInstance);
 ```
