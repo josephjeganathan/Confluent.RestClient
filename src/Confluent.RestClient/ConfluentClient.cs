@@ -99,10 +99,11 @@ namespace Confluent.RestClient
         }
 
         public async Task<ConfluentResponse<List<BinaryLogMessage>>> ConsumeAsBinaryAsync(
-            ConsumerInstance consumerInstance, 
-            string topic)
+            ConsumerInstance consumerInstance,
+            string topic,
+            int? maxBytes = null)
         {
-            string requestUri = string.Format("/topics/{0}", topic);
+            string requestUri = BuildConsumeRequestUri(topic, maxBytes);
 
             HttpRequestMessage request = CreateRequestMessage(HttpMethod.Get, requestUri, consumerInstance.BaseUri)
                 .WithContentType(ContentTypeKafkaBinary)
@@ -113,11 +114,12 @@ namespace Confluent.RestClient
 
         public async Task<ConfluentResponse<List<AvroLogMessage<TKey, TValue>>>> ConsumeAsAvroAsync<TKey, TValue>(
             ConsumerInstance consumerInstance,
-            string topic)
+            string topic,
+            int? maxBytes = null)
             where TKey : class
             where TValue : class
         {
-            string requestUri = string.Format("/topics/{0}", topic);
+            string requestUri = BuildConsumeRequestUri(topic, maxBytes);
 
             HttpRequestMessage request = CreateRequestMessage(HttpMethod.Get, requestUri, consumerInstance.BaseUri)
                 .WithContentType(ContentTypeKafkaAvro)
@@ -125,7 +127,7 @@ namespace Confluent.RestClient
 
             return await SendRequest<List<AvroLogMessage<TKey, TValue>>>(request);
         }
-        
+
         public async Task<ConfluentResponse<List<ConsumerOffset>>> CommitOffsetAsync(ConsumerInstance consumerInstance)
         {
             HttpRequestMessage request = CreateRequestMessage(HttpMethod.Post, "/offsets", consumerInstance.BaseUri)
@@ -183,6 +185,16 @@ namespace Confluent.RestClient
 
                 return serializer.Deserialize<TResponse>(reader);
             }
+        }
+
+        private static string BuildConsumeRequestUri(string topic, int? maxBytes)
+        {
+            string requestUri = string.Format("/topics/{0}", topic);
+            if (maxBytes.HasValue)
+            {
+                requestUri = string.Format("{0}?max_bytes={1}", requestUri, maxBytes.Value);
+            }
+            return requestUri;
         }
 
         public void Dispose()

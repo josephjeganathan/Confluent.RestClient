@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Configuration;
+using System.Drawing.Printing;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -68,12 +69,37 @@ namespace Confluent.TestHarness
             }
         }
 
-        private void textBoxPartitionId_KeyPress(object sender, KeyPressEventArgs e)
+        private int? GetMaxBytesOrNull()
+        {
+            int maxBytes = Convert.ToInt32(textBoxMaxBytes.Text);
+            if (maxBytes > 0)
+            {
+                return maxBytes;
+            }
+            return null;
+        }
+
+        private int GetPartitionId()
+        {
+            return Convert.ToInt32(textBoxPartitionId.Text);
+        }
+
+        private static void DigitsOnly(KeyPressEventArgs e)
         {
             if (!char.IsDigit(e.KeyChar))
             {
                 e.Handled = true;
             }
+        }
+
+        private void textBoxPartitionId_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            DigitsOnly(e);
+        }
+
+        private void textBoxMaxBytes_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            DigitsOnly(e);
         }
 
         private void buttonGetTopics_Click(object sender, EventArgs e)
@@ -104,7 +130,7 @@ namespace Confluent.TestHarness
                 {
                     new BinaryRecord
                     {
-                        PartitionId = Convert.ToInt32(textBoxPartitionId.Text),
+                        PartitionId = GetPartitionId(),
                         Value = ToBase64(GetPerson())
                     },
                     new BinaryRecord
@@ -127,7 +153,7 @@ namespace Confluent.TestHarness
                 {
                     new AvroRecord<string, Person>
                     {
-                        PartitionId = Convert.ToInt32(textBoxPartitionId.Text),
+                        PartitionId = GetPartitionId(),
                         Value = GetPerson()
                     },
                     new AvroRecord<string, Person>
@@ -168,7 +194,7 @@ namespace Confluent.TestHarness
             {
                 BaseUri = string.Format("{0}/consumers/{1}/instances/{2}", _baseUrl, textBoxConsumerGroup.Text, textBoxConsumerId.Text),
                 InstanceId = textBoxConsumerId.Text
-            }, textBoxTopic.Text).Result);
+            }, textBoxTopic.Text, GetMaxBytesOrNull()).Result);
         }
 
         private void buttonConsumeAvro_Click(object sender, EventArgs e)
@@ -177,7 +203,7 @@ namespace Confluent.TestHarness
             {
                 BaseUri = string.Format("{0}/consumers/{1}/instances/{2}", _baseUrl, textBoxConsumerGroup.Text, textBoxConsumerId.Text),
                 InstanceId = textBoxConsumerId.Text
-            }, textBoxTopic.Text).Result);
+            }, textBoxTopic.Text, GetMaxBytesOrNull()).Result);
 
         }
 
