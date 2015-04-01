@@ -80,12 +80,10 @@ namespace Confluent.RestClient
         /// If the consumer is not yet subscribed to the topic, this adds it as a subscriber, possibly causing a consumer rebalance
         /// </summary>
         /// <param name="consumerInstance">Consumer instance</param>
-        /// <param name="consumerGroupName">The name of the consumer group</param>
         /// <param name="topic">The topic to consume messages from</param>
         /// <returns>List of Binary messages</returns>
         Task<ConfluentResponse<List<BinaryLogMessage>>> ConsumeAsBinaryAsync(
             ConsumerInstance consumerInstance,
-            string consumerGroupName,
             string topic);
 
         /// <summary>
@@ -93,12 +91,10 @@ namespace Confluent.RestClient
         /// If the consumer is not yet subscribed to the topic, this adds it as a subscriber, possibly causing a consumer rebalance
         /// </summary>
         /// <param name="consumerInstance">Consumer instance</param>
-        /// <param name="consumerGroupName">The name of the consumer group</param>
         /// <param name="topic">The topic to consume messages from</param>
         /// <returns>List of Avro messages</returns>
         Task<ConfluentResponse<List<AvroLogMessage<TKey, TValue>>>> ConsumeAsAvroAsync<TKey, TValue>(
             ConsumerInstance consumerInstance,
-            string consumerGroupName,
             string topic)
             where TKey : class
             where TValue : class;
@@ -108,21 +104,15 @@ namespace Confluent.RestClient
         /// Note that this request must be made to the specific REST proxy instance holding the consumer instance (using `Host` header)
         /// </summary>
         /// <param name="consumerInstance">Consumer instance</param>
-        /// <param name="consumerGroupName">The name of the consumer group</param>
         /// <returns>Returns a list of the partitions with the committed offsets</returns>
-        Task<ConfluentResponse<List<ConsumerOffset>>> CommitOffsetAsync(
-            ConsumerInstance consumerInstance,
-            string consumerGroupName);
+        Task<ConfluentResponse<List<ConsumerOffset>>> CommitOffsetAsync(ConsumerInstance consumerInstance);
 
         /// <summary>
         /// Destroy the consumer instance
         /// Note that this request must be made to the specific REST proxy instance holding the consumer instance (using `Host` header)
         /// </summary>
         /// <param name="consumerInstance">Consumer instance</param>
-        /// <param name="consumerGroupName">The name of the consumer group</param>
         /// <returns></returns>
-        Task<ConfluentResponse> DeleteConsumerAsync(
-            ConsumerInstance consumerInstance,
-            string consumerGroupName);
+        Task<ConfluentResponse> DeleteConsumerAsync(ConsumerInstance consumerInstance);
     }
 }

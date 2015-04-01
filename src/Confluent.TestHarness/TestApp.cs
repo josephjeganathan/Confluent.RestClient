@@ -168,7 +168,7 @@ namespace Confluent.TestHarness
             {
                 BaseUri = string.Format("{0}/consumers/{1}/instances/{2}", _baseUrl, textBoxConsumerGroup.Text, textBoxConsumerId.Text),
                 InstanceId = textBoxConsumerId.Text
-            }, textBoxConsumerGroup.Text, textBoxTopic.Text).Result);
+            }, textBoxTopic.Text).Result);
         }
 
         private void buttonConsumeAvro_Click(object sender, EventArgs e)
@@ -177,7 +177,7 @@ namespace Confluent.TestHarness
             {
                 BaseUri = string.Format("{0}/consumers/{1}/instances/{2}", _baseUrl, textBoxConsumerGroup.Text, textBoxConsumerId.Text),
                 InstanceId = textBoxConsumerId.Text
-            }, textBoxConsumerGroup.Text, textBoxTopic.Text).Result);
+            }, textBoxTopic.Text).Result);
 
         }
 
@@ -187,7 +187,7 @@ namespace Confluent.TestHarness
             {
                 BaseUri = string.Format("{0}/consumers/{1}/instances/{2}", _baseUrl, textBoxConsumerGroup.Text, textBoxConsumerId.Text),
                 InstanceId = textBoxConsumerId.Text
-            }, textBoxConsumerGroup.Text).Result);
+            }).Result);
         }
 
         private void buttonDeleteConsumer_Click(object sender, EventArgs e)
@@ -196,7 +196,7 @@ namespace Confluent.TestHarness
             {
                 BaseUri = string.Format("{0}/consumers/{1}/instances/{2}", _baseUrl, textBoxConsumerGroup.Text, textBoxConsumerId.Text),
                 InstanceId = textBoxConsumerId.Text
-            }, textBoxConsumerGroup.Text).Result);
+            }).Result);
         }
     }
 }

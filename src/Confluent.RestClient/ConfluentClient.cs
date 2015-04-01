@@ -100,12 +100,11 @@ namespace Confluent.RestClient
 
         public async Task<ConfluentResponse<List<BinaryLogMessage>>> ConsumeAsBinaryAsync(
             ConsumerInstance consumerInstance, 
-            string consumerGroupName, 
             string topic)
         {
-            string requestUri = string.Format("/consumers/{0}/instances/{1}/topics/{2}", consumerGroupName, consumerInstance.InstanceId, topic);
+            string requestUri = string.Format("/topics/{0}", topic);
 
-            HttpRequestMessage request = CreateRequestMessage(HttpMethod.Get, requestUri)
+            HttpRequestMessage request = CreateRequestMessage(HttpMethod.Get, requestUri, consumerInstance.BaseUri)
                 .WithContentType(ContentTypeKafkaBinary)
                 .WithHostHeader(consumerInstance.BaseUri);
 
@@ -114,40 +113,31 @@ namespace Confluent.RestClient
 
         public async Task<ConfluentResponse<List<AvroLogMessage<TKey, TValue>>>> ConsumeAsAvroAsync<TKey, TValue>(
             ConsumerInstance consumerInstance,
-            string consumerGroupName,
             string topic)
             where TKey : class
             where TValue : class
         {
-            string requestUri = string.Format("/consumers/{0}/instances/{1}/topics/{2}", consumerGroupName, consumerInstance.InstanceId, topic);
+            string requestUri = string.Format("/topics/{0}", topic);
 
-            HttpRequestMessage request = CreateRequestMessage(HttpMethod.Get, requestUri)
+            HttpRequestMessage request = CreateRequestMessage(HttpMethod.Get, requestUri, consumerInstance.BaseUri)
                 .WithContentType(ContentTypeKafkaAvro)
                 .WithHostHeader(consumerInstance.BaseUri);
 
             return await SendRequest<List<AvroLogMessage<TKey, TValue>>>(request);
         }
         
-        public async Task<ConfluentResponse<List<ConsumerOffset>>> CommitOffsetAsync(
-            ConsumerInstance consumerInstance,
-            string consumerGroupName)
+        public async Task<ConfluentResponse<List<ConsumerOffset>>> CommitOffsetAsync(ConsumerInstance consumerInstance)
         {
-            string requestUri = string.Format("/consumers/{0}/instances/{1}/offsets", consumerGroupName, consumerInstance.InstanceId);
-
-            HttpRequestMessage request = CreateRequestMessage(HttpMethod.Post, requestUri)
+            HttpRequestMessage request = CreateRequestMessage(HttpMethod.Post, "/offsets", consumerInstance.BaseUri)
                 .WithContentType(ContentTypeKafkaDefault)
                 .WithHostHeader(consumerInstance.BaseUri);
 
             return await SendRequest<List<ConsumerOffset>>(request);
         }
 
-        public async Task<ConfluentResponse> DeleteConsumerAsync(
-            ConsumerInstance consumerInstance,
-            string consumerGroupName)
+        public async Task<ConfluentResponse> DeleteConsumerAsync(ConsumerInstance consumerInstance)
         {
-            string requestUri = string.Format("/consumers/{0}/instances/{1}", consumerGroupName, consumerInstance.InstanceId);
-
-            HttpRequestMessage request = CreateRequestMessage(HttpMethod.Delete, requestUri)
+            HttpRequestMessage request = CreateRequestMessage(HttpMethod.Delete, "", consumerInstance.BaseUri)
                 .WithContentType(ContentTypeKafkaDefault)
                 .WithHostHeader(consumerInstance.BaseUri);
 
@@ -163,7 +153,8 @@ namespace Confluent.RestClient
 
         private HttpRequestMessage CreateRequestMessage(HttpMethod method, string requestUri, string baseUri = null)
         {
-            requestUri = string.Format("{0}{1}", string.IsNullOrWhiteSpace(baseUri) ? _clientSettings.KafkaBaseUrl : baseUri, requestUri);
+            baseUri = (string.IsNullOrWhiteSpace(baseUri) ? _clientSettings.KafkaBaseUrl : baseUri).TrimEnd('/', '\\');
+            requestUri = string.Format("{0}{1}", baseUri, requestUri);
 
             return new HttpRequestMessage(method, requestUri);
         }
