@@ -7,7 +7,7 @@
     <owners>Joseph Jeganathan</owners>
     <description>Confluent.io Kafka Client Libraries</description>
     <language>en-GB</language>
-    <tags>kafka</tags>
+    <tags>Kafka Confulent</tags>
     <projectUrl>https://github.com/josephjeganathan/Confluent.RestClient</projectUrl>
     <dependencies>
       <dependency id="Microsoft.AspNet.WebApi.Client" version="5.2.3" />
