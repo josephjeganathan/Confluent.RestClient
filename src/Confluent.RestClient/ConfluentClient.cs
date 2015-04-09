@@ -173,13 +173,9 @@ namespace Confluent.RestClient
             {
                 response = await _client.SendAsync(request);
             }
-            catch (HttpRequestException e)
-            {
-                throw new ConfluentApiSerializationException("Failed to communicate to confluent REST API", e);
-            }
             catch (Exception e)
             {
-                throw new ConfluentApiSerializationException("Failed to send request ", e);
+                throw new ConfluentApiSerializationException("Failed to send request to confluent REST API", e);
             }
 
             try
@@ -191,13 +187,9 @@ namespace Confluent.RestClient
 
                 return ConfluentResponse<TResponse>.Failed(await ReadResponseAs<Error>(response));
             }
-            catch (JsonException e)
-            {
-                throw new ConfluentApiSerializationException("Failed to deserialize response", e);
-            }
             catch (Exception e)
             {
-                throw new ConfluentApiSerializationException("Failed to read response", e);
+                throw new ConfluentApiSerializationException("Failed to deserialize response", e);
             }
         }
 
