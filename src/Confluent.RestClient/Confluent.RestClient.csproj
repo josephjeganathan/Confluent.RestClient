@@ -47,8 +47,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Exceptions\ConfluentApiException.cs" />
     <Compile Include="ConfluentClient.cs" />
     <Compile Include="DefaultConfluentClientSettings.cs" />
+    <Compile Include="Exceptions\ConfluentApiSerializationException.cs" />
+    <Compile Include="Exceptions\ConfluentApiUnavailableException.cs" />
     <Compile Include="HttpRequestMessageExtensions.cs" />
     <Compile Include="IConfluentClient.cs" />
     <Compile Include="IConfluentClientSettings.cs" />

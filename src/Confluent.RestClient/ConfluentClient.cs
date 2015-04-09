@@ -1,7 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Confluent.RestClient.Exceptions;
 using Confluent.RestClient.Model;
 using Newtonsoft.Json;
 
@@ -164,14 +167,38 @@ namespace Confluent.RestClient
         private async Task<ConfluentResponse<TResponse>> SendRequest<TResponse>(HttpRequestMessage request)
             where TResponse : class
         {
-            HttpResponseMessage response = await _client.SendAsync(request);
-
-            if (response.IsSuccessStatusCode)
+            HttpResponseMessage response;
+            
+            try
             {
-                return ConfluentResponse<TResponse>.Success(await ReadResponseAs<TResponse>(response));
+                response = await _client.SendAsync(request);
+            }
+            catch (HttpRequestException e)
+            {
+                throw new ConfluentApiSerializationException("Failed to communicate to confluent REST API", e);
+            }
+            catch (Exception e)
+            {
+                throw new ConfluentApiSerializationException("Failed to send request ", e);
             }
 
-            return ConfluentResponse<TResponse>.Failed(await ReadResponseAs<Error>(response));
+            try
+            {
+                if (response.IsSuccessStatusCode)
+                {
+                    return ConfluentResponse<TResponse>.Success(await ReadResponseAs<TResponse>(response));
+                }
+
+                return ConfluentResponse<TResponse>.Failed(await ReadResponseAs<Error>(response));
+            }
+            catch (JsonException e)
+            {
+                throw new ConfluentApiSerializationException("Failed to deserialize response", e);
+            }
+            catch (Exception e)
+            {
+                throw new ConfluentApiSerializationException("Failed to read response", e);
+            }
         }
 
         private async Task<TResponse> ReadResponseAs<TResponse>(HttpResponseMessage responseMessage)
