@@ -2,7 +2,7 @@
 
 namespace Confluent.RestClient.Model
 {
-    public class BinaryLogMessage : LogMessage
+    public class BinaryMessage : Message
     {
         /// <summary>
         /// The message key

@@ -83,7 +83,7 @@ namespace Confluent.RestClient
         /// <param name="topic">The topic to consume messages from</param>
         /// <param name="maxBytes">The maximum number of bytes of un-encoded keys and values that should be included in the response</param>
         /// <returns>List of Binary messages</returns>
-        Task<ConfluentResponse<List<BinaryLogMessage>>> ConsumeAsBinaryAsync(
+        Task<ConfluentResponse<List<BinaryMessage>>> ConsumeAsBinaryAsync(
             ConsumerInstance consumerInstance,
             string topic,
             int? maxBytes = null);
@@ -96,7 +96,7 @@ namespace Confluent.RestClient
         /// <param name="topic">The topic to consume messages from</param>
         /// <param name="maxBytes">The maximum number of bytes of un-encoded keys and values that should be included in the response</param>
         /// <returns>List of Avro messages</returns>
-        Task<ConfluentResponse<List<AvroLogMessage<TKey, TValue>>>> ConsumeAsAvroAsync<TKey, TValue>(
+        Task<ConfluentResponse<List<AvroMessage<TKey, TValue>>>> ConsumeAsAvroAsync<TKey, TValue>(
             ConsumerInstance consumerInstance,
             string topic,
             int? maxBytes = null)

@@ -87,10 +87,10 @@ ConsumerInstance consumerInstance = response.Payload;
 ```C#
 IConfluentClient client = new ConfluentClient(settings);
 
-ConfluentResponse<List<AvroLogMessage<string, Person>>> response
+ConfluentResponse<List<AvroMessage<string, Person>>> response
     = await client.ConsumeAsAvroAsync<string, Person>(consumerInstance, "TestTopic");
 
-foreach (AvroLogMessage<string, Person> message in response.Payload)
+foreach (AvroMessage<string, Person> message in response.Payload)
 {
     Person person = message.Value;
     Console.WriteLine("Name: {0}, Age: {1}", person.Name, person.Age);

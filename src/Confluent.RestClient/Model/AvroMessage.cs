@@ -2,7 +2,7 @@
 
 namespace Confluent.RestClient.Model
 {
-    public class AvroLogMessage<TKey, TValue> : LogMessage
+    public class AvroMessage<TKey, TValue> : Message
         where TKey : class
         where TValue : class
     {

@@ -2,7 +2,7 @@
 
 namespace Confluent.RestClient.Model
 {
-    public abstract class LogMessage
+    public abstract class Message
     {
         /// <summary>
         /// Partition of the message

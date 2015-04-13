@@ -101,7 +101,7 @@ namespace Confluent.RestClient
             return await SendRequest<ConsumerInstance>(request);
         }
 
-        public async Task<ConfluentResponse<List<BinaryLogMessage>>> ConsumeAsBinaryAsync(
+        public async Task<ConfluentResponse<List<BinaryMessage>>> ConsumeAsBinaryAsync(
             ConsumerInstance consumerInstance,
             string topic,
             int? maxBytes = null)
@@ -112,10 +112,10 @@ namespace Confluent.RestClient
                 .WithContentType(ContentTypeKafkaBinary)
                 .WithHostHeader(consumerInstance.BaseUri);
 
-            return await SendRequest<List<BinaryLogMessage>>(request);
+            return await SendRequest<List<BinaryMessage>>(request);
         }
 
-        public async Task<ConfluentResponse<List<AvroLogMessage<TKey, TValue>>>> ConsumeAsAvroAsync<TKey, TValue>(
+        public async Task<ConfluentResponse<List<AvroMessage<TKey, TValue>>>> ConsumeAsAvroAsync<TKey, TValue>(
             ConsumerInstance consumerInstance,
             string topic,
             int? maxBytes = null)
@@ -128,7 +128,7 @@ namespace Confluent.RestClient
                 .WithContentType(ContentTypeKafkaAvro)
                 .WithHostHeader(consumerInstance.BaseUri);
 
-            return await SendRequest<List<AvroLogMessage<TKey, TValue>>>(request);
+            return await SendRequest<List<AvroMessage<TKey, TValue>>>(request);
         }
 
         public async Task<ConfluentResponse<List<ConsumerOffset>>> CommitOffsetAsync(ConsumerInstance consumerInstance)
