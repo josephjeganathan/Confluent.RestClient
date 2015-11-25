@@ -16,11 +16,12 @@ namespace Confluent.TestHarness
         private readonly IConfluentClient _confluentClient;
         private readonly Random _random = new Random();
         private readonly string _baseUrl = ConfigurationManager.AppSettings["Confluent.KafkaBaseUrl"];
+        private readonly TimeSpan _requestTimeout = TimeSpan.Parse(ConfigurationManager.AppSettings["Confluent.RequestTimeout"]);
 
         public TestApp()
         {
             InitializeComponent();
-            _confluentClient = new ConfluentClient(new ConfluentClientSettings(_baseUrl));
+            _confluentClient = new ConfluentClient(new ConfluentClientSettings(_baseUrl, _requestTimeout));
         }
 
         private Person GetPerson()

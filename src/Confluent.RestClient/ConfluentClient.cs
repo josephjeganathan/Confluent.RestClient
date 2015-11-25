@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 using Confluent.RestClient.Exceptions;
 using Confluent.RestClient.Model;
@@ -19,21 +20,22 @@ namespace Confluent.RestClient
 
         private readonly HttpClient _client;
 
-        public ConfluentClient() : this(new DefaultConfluentClientSettings())
+        public ConfluentClient() 
+            : this(new DefaultConfluentClientSettings())
         {
         }
 
         public ConfluentClient(IConfluentClientSettings clientSettings)
         {
             _clientSettings = clientSettings;
-            _client = new HttpClient();
+            _client = new HttpClient {Timeout = clientSettings.RequestTimeout};
         }
 
         public async Task<ConfluentResponse<List<string>>> GetTopicsAsync()
         {
             HttpRequestMessage request = CreateRequestMessage(HttpMethod.Get, "/topics");
 
-            return await SendRequest<List<string>>(request);
+            return await ProcessRequest<List<string>>(request);
         }
 
         public async Task<ConfluentResponse<Topic>> GetTopicMetadataAsync(string topic)
@@ -41,7 +43,7 @@ namespace Confluent.RestClient
             string requestUri = string.Format("/topics/{0}", topic);
             HttpRequestMessage request = CreateRequestMessage(HttpMethod.Get, requestUri);
 
-            return await SendRequest<Topic>(request);
+            return await ProcessRequest<Topic>(request);
         }
 
         public async Task<ConfluentResponse<List<Partition>>> GetTopicPartitionsAsync(string topic)
@@ -49,7 +51,7 @@ namespace Confluent.RestClient
             string requestUri = string.Format("/topics/{0}/partitions", topic);
             HttpRequestMessage request = CreateRequestMessage(HttpMethod.Get, requestUri);
 
-            return await SendRequest<List<Partition>>(request);
+            return await ProcessRequest<List<Partition>>(request);
         }
 
         public async Task<ConfluentResponse<Partition>> GetTopicPartitionAsync(
@@ -59,7 +61,7 @@ namespace Confluent.RestClient
             string requestUri = string.Format("/topics/{0}/partitions/{1}", topic, partitionId);
             HttpRequestMessage request = CreateRequestMessage(HttpMethod.Get, requestUri);
 
-            return await SendRequest<Partition>(request);
+            return await ProcessRequest<Partition>(request);
         }
 
         public async Task<ConfluentResponse<PublishResponse>> PublishAsBinaryAsync(
@@ -71,7 +73,7 @@ namespace Confluent.RestClient
             HttpRequestMessage request = CreateRequestMessage(HttpMethod.Post, requestUri)
                 .WithContent(recordSet, ContentTypeKafkaBinary);
 
-            return await SendRequest<PublishResponse>(request);
+            return await ProcessRequest<PublishResponse>(request);
         }
 
         public async Task<ConfluentResponse<PublishResponse>> PublishAsAvroAsync<TKey, TValue>(
@@ -85,7 +87,7 @@ namespace Confluent.RestClient
             HttpRequestMessage request = CreateRequestMessage(HttpMethod.Post, requestUri)
                 .WithContent(recordSet, ContentTypeKafkaAvro);
 
-            return await SendRequest<PublishResponse>(request);
+            return await ProcessRequest<PublishResponse>(request);
         }
 
         public async Task<ConfluentResponse<ConsumerInstance>> CreateConsumerAsync(
@@ -98,7 +100,7 @@ namespace Confluent.RestClient
                 .WithContent(createConsumerRequest, ContentTypeKafkaDefault)
                 .WithHostHeader(_clientSettings.KafkaBaseUrl);
 
-            return await SendRequest<ConsumerInstance>(request);
+            return await ProcessRequest<ConsumerInstance>(request);
         }
 
         public async Task<ConfluentResponse<List<BinaryMessage>>> ConsumeAsBinaryAsync(
@@ -112,7 +114,7 @@ namespace Confluent.RestClient
                 .WithContentType(ContentTypeKafkaBinary)
                 .WithHostHeader(consumerInstance.BaseUri);
 
-            return await SendRequest<List<BinaryMessage>>(request);
+            return await ProcessRequest<List<BinaryMessage>>(request);
         }
 
         public async Task<ConfluentResponse<List<AvroMessage<TKey, TValue>>>> ConsumeAsAvroAsync<TKey, TValue>(
@@ -128,7 +130,7 @@ namespace Confluent.RestClient
                 .WithContentType(ContentTypeKafkaAvro)
                 .WithHostHeader(consumerInstance.BaseUri);
 
-            return await SendRequest<List<AvroMessage<TKey, TValue>>>(request);
+            return await ProcessRequest<List<AvroMessage<TKey, TValue>>>(request);
         }
 
         public async Task<ConfluentResponse<List<ConsumerOffset>>> CommitOffsetAsync(ConsumerInstance consumerInstance)
@@ -137,7 +139,7 @@ namespace Confluent.RestClient
                 .WithContentType(ContentTypeKafkaDefault)
                 .WithHostHeader(consumerInstance.BaseUri);
 
-            return await SendRequest<List<ConsumerOffset>>(request);
+            return await ProcessRequest<List<ConsumerOffset>>(request);
         }
 
         public async Task<ConfluentResponse> DeleteConsumerAsync(ConsumerInstance consumerInstance)
@@ -146,7 +148,7 @@ namespace Confluent.RestClient
                 .WithContentType(ContentTypeKafkaDefault)
                 .WithHostHeader(consumerInstance.BaseUri);
 
-            HttpResponseMessage response = await _client.SendAsync(request);
+            var response = await SendRequest(request);
 
             if (response.IsSuccessStatusCode)
             {
@@ -155,7 +157,7 @@ namespace Confluent.RestClient
 
             return ConfluentResponse.Failed(await ReadResponseAs<Error>(response));
         }
-
+        
         private HttpRequestMessage CreateRequestMessage(HttpMethod method, string requestUri, string baseUri = null)
         {
             baseUri = (string.IsNullOrWhiteSpace(baseUri) ? _clientSettings.KafkaBaseUrl : baseUri).TrimEnd('/', '\\');
@@ -163,20 +165,11 @@ namespace Confluent.RestClient
 
             return new HttpRequestMessage(method, requestUri);
         }
-
-        private async Task<ConfluentResponse<TResponse>> SendRequest<TResponse>(HttpRequestMessage request)
+       
+        private async Task<ConfluentResponse<TResponse>> ProcessRequest<TResponse>(HttpRequestMessage request)
             where TResponse : class
         {
-            HttpResponseMessage response;
-            
-            try
-            {
-                response = await _client.SendAsync(request);
-            }
-            catch (Exception e)
-            {
-                throw new ConfluentApiSerializationException("Failed to send request to confluent REST API", e);
-            }
+            var response = await SendRequest(request);
 
             try
             {
@@ -191,6 +184,24 @@ namespace Confluent.RestClient
             {
                 throw new ConfluentApiSerializationException("Failed to deserialize response", e);
             }
+        }
+
+        private async Task<HttpResponseMessage> SendRequest(HttpRequestMessage request)
+        {
+            try
+            {
+                return await _client.SendAsync(request);
+            }
+            catch (TaskCanceledException ex)
+            {
+                throw new ConfluentApiUnavailableException(
+                    "The operation has timed-out. The timeout period elapsed prior to completion of the operation or the server is not responding.",
+                    ex);
+            }
+            catch (Exception e)
+            {
+                throw new ConfluentApiUnavailableException("Failed to send request to confluent REST API", e);
+            }            
         }
 
         private async Task<TResponse> ReadResponseAs<TResponse>(HttpResponseMessage responseMessage)
