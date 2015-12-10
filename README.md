@@ -21,6 +21,14 @@ public class MyConfluentClientSettings : IConfluentClientSettings
             return ConfigurationManager.AppSettings["Confluent.KafkaBaseUrl"];
         }
     }
+    
+    public TimeSpan RequestTimeout
+    {
+        get
+        {
+            return TimeSpan.Parse(ConfigurationManager.AppSettings["Confluent.RequestTimeout"]);
+        }
+    }
 }
 ```
 
