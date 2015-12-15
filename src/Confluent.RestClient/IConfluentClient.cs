@@ -156,12 +156,10 @@ namespace Confluent.RestClient
         /// </summary>
         /// <param name="consumerInstance">Consumer instance</param>
         /// <param name="topic">The topic to consume messages from</param>
-        /// <param name="maxBytes">The maximum number of bytes of un-encoded keys and values that should be included in the response</param>
         /// <returns>List of Binary messages</returns>
         Task<ConfluentResponse<List<BinaryMessage>>> ConsumeAsBinaryAsync(
             ConsumerInstance consumerInstance,
-            string topic,
-            int? maxBytes = null);
+            string topic);
 
         /// <summary>
         /// Consume messages from a topic as binary (base 64 encoded string). 
@@ -170,13 +168,40 @@ namespace Confluent.RestClient
         /// <param name="consumerInstance">Consumer instance</param>
         /// <param name="topic">The topic to consume messages from</param>
         /// <param name="cancellationToken">The cancellation token to cancel the operation</param>
+        /// <returns>List of Binary messages</returns>
+        Task<ConfluentResponse<List<BinaryMessage>>> ConsumeAsBinaryAsync(
+            ConsumerInstance consumerInstance,
+            string topic,
+            CancellationToken cancellationToken);
+
+        /// <summary>
+        /// Consume messages from a topic as binary (base 64 encoded string). 
+        /// If the consumer is not yet subscribed to the topic, this adds it as a subscriber, possibly causing a consumer rebalance
+        /// </summary>
+        /// <param name="consumerInstance">Consumer instance</param>
+        /// <param name="topic">The topic to consume messages from</param>
         /// <param name="maxBytes">The maximum number of bytes of un-encoded keys and values that should be included in the response</param>
         /// <returns>List of Binary messages</returns>
         Task<ConfluentResponse<List<BinaryMessage>>> ConsumeAsBinaryAsync(
             ConsumerInstance consumerInstance,
             string topic,
-            CancellationToken cancellationToken,
-            int? maxBytes = null);
+            int? maxBytes);
+
+        /// <summary>
+        /// Consume messages from a topic as binary (base 64 encoded string). 
+        /// If the consumer is not yet subscribed to the topic, this adds it as a subscriber, possibly causing a consumer rebalance
+        /// </summary>
+        /// <param name="consumerInstance">Consumer instance</param>
+        /// <param name="topic">The topic to consume messages from</param>
+        /// <param name="maxBytes">The maximum number of bytes of un-encoded keys and values that should be included in the response</param>
+        /// <param name="cancellationToken">The cancellation token to cancel the operation</param>
+        /// <returns>List of Binary messages</returns>
+        Task<ConfluentResponse<List<BinaryMessage>>> ConsumeAsBinaryAsync(
+            ConsumerInstance consumerInstance,
+            string topic,
+            int? maxBytes,
+            CancellationToken cancellationToken);
+
 
         /// <summary>
         /// Consume messages from a topic as Avro data 
@@ -184,12 +209,10 @@ namespace Confluent.RestClient
         /// </summary>
         /// <param name="consumerInstance">Consumer instance</param>
         /// <param name="topic">The topic to consume messages from</param>
-        /// <param name="maxBytes">The maximum number of bytes of un-encoded keys and values that should be included in the response</param>
         /// <returns>List of Avro messages</returns>
         Task<ConfluentResponse<List<AvroMessage<TKey, TValue>>>> ConsumeAsAvroAsync<TKey, TValue>(
             ConsumerInstance consumerInstance,
-            string topic,
-            int? maxBytes = null)
+            string topic)
             where TKey : class
             where TValue : class;
 
@@ -200,13 +223,43 @@ namespace Confluent.RestClient
         /// <param name="consumerInstance">Consumer instance</param>
         /// <param name="topic">The topic to consume messages from</param>
         /// <param name="cancellationToken">The cancellation token to cancel the operation</param>
+        /// <returns>List of Avro messages</returns>
+        Task<ConfluentResponse<List<AvroMessage<TKey, TValue>>>> ConsumeAsAvroAsync<TKey, TValue>(
+            ConsumerInstance consumerInstance,
+            string topic,
+            CancellationToken cancellationToken)
+            where TKey : class
+            where TValue : class;
+
+        /// <summary>
+        /// Consume messages from a topic as Avro data 
+        /// If the consumer is not yet subscribed to the topic, this adds it as a subscriber, possibly causing a consumer rebalance
+        /// </summary>
+        /// <param name="consumerInstance">Consumer instance</param>
+        /// <param name="topic">The topic to consume messages from</param>
         /// <param name="maxBytes">The maximum number of bytes of un-encoded keys and values that should be included in the response</param>
         /// <returns>List of Avro messages</returns>
         Task<ConfluentResponse<List<AvroMessage<TKey, TValue>>>> ConsumeAsAvroAsync<TKey, TValue>(
             ConsumerInstance consumerInstance,
             string topic,
-            CancellationToken cancellationToken,
-            int? maxBytes = null)
+            int? maxBytes)
+            where TKey : class
+            where TValue : class;
+
+        /// <summary>
+        /// Consume messages from a topic as Avro data 
+        /// If the consumer is not yet subscribed to the topic, this adds it as a subscriber, possibly causing a consumer rebalance
+        /// </summary>
+        /// <param name="consumerInstance">Consumer instance</param>
+        /// <param name="topic">The topic to consume messages from</param>
+        /// <param name="maxBytes">The maximum number of bytes of un-encoded keys and values that should be included in the response</param>
+        /// <param name="cancellationToken">The cancellation token to cancel the operation</param>
+        /// <returns>List of Avro messages</returns>
+        Task<ConfluentResponse<List<AvroMessage<TKey, TValue>>>> ConsumeAsAvroAsync<TKey, TValue>(
+            ConsumerInstance consumerInstance,
+            string topic,
+            int? maxBytes,
+            CancellationToken cancellationToken)
             where TKey : class
             where TValue : class;
 

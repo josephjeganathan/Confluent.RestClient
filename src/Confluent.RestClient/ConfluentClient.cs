@@ -148,17 +148,32 @@ namespace Confluent.RestClient
 
         public async Task<ConfluentResponse<List<BinaryMessage>>> ConsumeAsBinaryAsync(
             ConsumerInstance consumerInstance,
-            string topic,
-            int? maxBytes = null)
+            string topic)
         {
-            return await ConsumeAsBinaryAsync(consumerInstance, topic, CancellationToken.None, maxBytes).ConfigureAwait(false);
+            return await ConsumeAsBinaryAsync(consumerInstance, topic, null, CancellationToken.None).ConfigureAwait(false);
         }
 
         public async Task<ConfluentResponse<List<BinaryMessage>>> ConsumeAsBinaryAsync(
             ConsumerInstance consumerInstance,
             string topic,
-            CancellationToken cancellationToken,
-            int? maxBytes = null)
+            CancellationToken cancellationToken)
+        {
+            return await ConsumeAsBinaryAsync(consumerInstance, topic, null, cancellationToken).ConfigureAwait(false);
+        }
+
+        public async Task<ConfluentResponse<List<BinaryMessage>>> ConsumeAsBinaryAsync(
+            ConsumerInstance consumerInstance,
+            string topic,
+            int? maxBytes)
+        {
+            return await ConsumeAsBinaryAsync(consumerInstance, topic, maxBytes, CancellationToken.None).ConfigureAwait(false);
+        }
+
+        public async Task<ConfluentResponse<List<BinaryMessage>>> ConsumeAsBinaryAsync(
+            ConsumerInstance consumerInstance,
+            string topic,
+            int? maxBytes,
+            CancellationToken cancellationToken)
         {
             string requestUri = BuildConsumeRequestUri(topic, maxBytes);
 
@@ -171,19 +186,38 @@ namespace Confluent.RestClient
 
         public async Task<ConfluentResponse<List<AvroMessage<TKey, TValue>>>> ConsumeAsAvroAsync<TKey, TValue>(
             ConsumerInstance consumerInstance,
-            string topic,
-            int? maxBytes = null)
+            string topic)
             where TKey : class
             where TValue : class
         {
-            return await ConsumeAsAvroAsync<TKey, TValue>(consumerInstance, topic, CancellationToken.None, maxBytes).ConfigureAwait(false);
+            return await ConsumeAsAvroAsync<TKey, TValue>(consumerInstance, topic, null, CancellationToken.None).ConfigureAwait(false);
         }
 
         public async Task<ConfluentResponse<List<AvroMessage<TKey, TValue>>>> ConsumeAsAvroAsync<TKey, TValue>(
             ConsumerInstance consumerInstance,
             string topic,
-            CancellationToken cancellationToken,
-            int? maxBytes = null)
+            CancellationToken cancellationToken)
+            where TKey : class
+            where TValue : class
+        {
+            return await ConsumeAsAvroAsync<TKey, TValue>(consumerInstance, topic, null, cancellationToken).ConfigureAwait(false);
+        }
+
+        public async Task<ConfluentResponse<List<AvroMessage<TKey, TValue>>>> ConsumeAsAvroAsync<TKey, TValue>(
+            ConsumerInstance consumerInstance,
+            string topic,
+            int? maxBytes)
+            where TKey : class
+            where TValue : class
+        {
+            return await ConsumeAsAvroAsync<TKey, TValue>(consumerInstance, topic, maxBytes, CancellationToken.None).ConfigureAwait(false);
+        }
+
+        public async Task<ConfluentResponse<List<AvroMessage<TKey, TValue>>>> ConsumeAsAvroAsync<TKey, TValue>(
+            ConsumerInstance consumerInstance,
+            string topic,
+            int? maxBytes,
+            CancellationToken cancellationToken)
             where TKey : class
             where TValue : class
         {
