@@ -185,7 +185,7 @@ namespace Confluent.RestClient
         Task<ConfluentResponse<List<BinaryMessage>>> ConsumeAsBinaryAsync(
             ConsumerInstance consumerInstance,
             string topic,
-            int? maxBytes);
+            int maxBytes);
 
         /// <summary>
         /// Consume messages from a topic as binary (base 64 encoded string). 
@@ -199,7 +199,7 @@ namespace Confluent.RestClient
         Task<ConfluentResponse<List<BinaryMessage>>> ConsumeAsBinaryAsync(
             ConsumerInstance consumerInstance,
             string topic,
-            int? maxBytes,
+            int maxBytes,
             CancellationToken cancellationToken);
 
 
@@ -242,7 +242,7 @@ namespace Confluent.RestClient
         Task<ConfluentResponse<List<AvroMessage<TKey, TValue>>>> ConsumeAsAvroAsync<TKey, TValue>(
             ConsumerInstance consumerInstance,
             string topic,
-            int? maxBytes)
+            int maxBytes)
             where TKey : class
             where TValue : class;
 
@@ -258,7 +258,7 @@ namespace Confluent.RestClient
         Task<ConfluentResponse<List<AvroMessage<TKey, TValue>>>> ConsumeAsAvroAsync<TKey, TValue>(
             ConsumerInstance consumerInstance,
             string topic,
-            int? maxBytes,
+            int maxBytes,
             CancellationToken cancellationToken)
             where TKey : class
             where TValue : class;

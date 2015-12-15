@@ -191,21 +191,44 @@ namespace Confluent.TestHarness
 
         private void buttonConsumerBinary_Click(object sender, EventArgs e)
         {
-            Run(() => _confluentClient.ConsumeAsBinaryAsync(new ConsumerInstance
+            var maxBytes = GetMaxBytesOrNull();
+            if (maxBytes.HasValue)
             {
-                BaseUri = string.Format("{0}/consumers/{1}/instances/{2}", _baseUrl, textBoxConsumerGroup.Text, textBoxConsumerId.Text),
-                InstanceId = textBoxConsumerId.Text
-            }, textBoxTopic.Text, GetMaxBytesOrNull()).Result);
+                Run(() => _confluentClient.ConsumeAsBinaryAsync(new ConsumerInstance
+                {
+                    BaseUri = string.Format("{0}/consumers/{1}/instances/{2}", _baseUrl, textBoxConsumerGroup.Text, textBoxConsumerId.Text),
+                    InstanceId = textBoxConsumerId.Text
+                }, textBoxTopic.Text, maxBytes.Value).Result);
+            }
+            else
+            {
+                Run(() => _confluentClient.ConsumeAsBinaryAsync(new ConsumerInstance
+                {
+                    BaseUri = string.Format("{0}/consumers/{1}/instances/{2}", _baseUrl, textBoxConsumerGroup.Text, textBoxConsumerId.Text),
+                    InstanceId = textBoxConsumerId.Text
+                }, textBoxTopic.Text).Result);
+            }
         }
 
         private void buttonConsumeAvro_Click(object sender, EventArgs e)
         {
-            Run(() => _confluentClient.ConsumeAsAvroAsync<string, Person>(new ConsumerInstance
+            var maxBytes = GetMaxBytesOrNull();
+            if (maxBytes.HasValue)
             {
-                BaseUri = string.Format("{0}/consumers/{1}/instances/{2}", _baseUrl, textBoxConsumerGroup.Text, textBoxConsumerId.Text),
-                InstanceId = textBoxConsumerId.Text
-            }, textBoxTopic.Text, GetMaxBytesOrNull()).Result);
-
+                Run(() => _confluentClient.ConsumeAsAvroAsync<string, Person>(new ConsumerInstance
+                {
+                    BaseUri = string.Format("{0}/consumers/{1}/instances/{2}", _baseUrl, textBoxConsumerGroup.Text, textBoxConsumerId.Text),
+                    InstanceId = textBoxConsumerId.Text
+                }, textBoxTopic.Text, maxBytes.Value).Result);
+            }
+            else
+            {
+                Run(() => _confluentClient.ConsumeAsAvroAsync<string, Person>(new ConsumerInstance
+                {
+                    BaseUri = string.Format("{0}/consumers/{1}/instances/{2}", _baseUrl, textBoxConsumerGroup.Text, textBoxConsumerId.Text),
+                    InstanceId = textBoxConsumerId.Text
+                }, textBoxTopic.Text).Result);
+            }
         }
 
         private void buttonCommitOffset_Click(object sender, EventArgs e)

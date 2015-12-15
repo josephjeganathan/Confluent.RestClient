@@ -164,12 +164,21 @@ namespace Confluent.RestClient
         public async Task<ConfluentResponse<List<BinaryMessage>>> ConsumeAsBinaryAsync(
             ConsumerInstance consumerInstance,
             string topic,
-            int? maxBytes)
+            int maxBytes)
         {
             return await ConsumeAsBinaryAsync(consumerInstance, topic, maxBytes, CancellationToken.None).ConfigureAwait(false);
         }
 
         public async Task<ConfluentResponse<List<BinaryMessage>>> ConsumeAsBinaryAsync(
+            ConsumerInstance consumerInstance,
+            string topic,
+            int maxBytes,
+            CancellationToken cancellationToken)
+        {
+            return await ConsumeAsBinaryAsync(consumerInstance, topic, maxBytes as int?, CancellationToken.None).ConfigureAwait(false);
+        }
+
+        private async Task<ConfluentResponse<List<BinaryMessage>>> ConsumeAsBinaryAsync(
             ConsumerInstance consumerInstance,
             string topic,
             int? maxBytes,
@@ -206,7 +215,7 @@ namespace Confluent.RestClient
         public async Task<ConfluentResponse<List<AvroMessage<TKey, TValue>>>> ConsumeAsAvroAsync<TKey, TValue>(
             ConsumerInstance consumerInstance,
             string topic,
-            int? maxBytes)
+            int maxBytes)
             where TKey : class
             where TValue : class
         {
@@ -214,6 +223,17 @@ namespace Confluent.RestClient
         }
 
         public async Task<ConfluentResponse<List<AvroMessage<TKey, TValue>>>> ConsumeAsAvroAsync<TKey, TValue>(
+            ConsumerInstance consumerInstance,
+            string topic,
+            int maxBytes,
+            CancellationToken cancellationToken)
+            where TKey : class
+            where TValue : class
+        {
+            return await ConsumeAsAvroAsync<TKey, TValue>(consumerInstance, topic, maxBytes as int?, CancellationToken.None).ConfigureAwait(false);
+        }
+
+        private async Task<ConfluentResponse<List<AvroMessage<TKey, TValue>>>> ConsumeAsAvroAsync<TKey, TValue>(
             ConsumerInstance consumerInstance,
             string topic,
             int? maxBytes,
